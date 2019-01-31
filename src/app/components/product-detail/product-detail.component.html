@@ -1,0 +1,586 @@
+<app-preview-header></app-preview-header>
+<div class="container">
+  <div class="row cancel-product" style="margin-top: 22px;">
+    <div class="col-md-7 col-md-offset-2">
+    </div>
+    <div class="col-md-3">
+      <a class="cancel-link pull-right" routerLink="/mug" style="cursor: pointer;text-decoration: underline">Back to Product
+      </a>
+    </div>
+  </div>
+</div>
+<section class="image-editor-section">
+  <div class="container">
+    <div class="row mar-row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-2" *ngIf="isEditImage">
+            <div class="left-sidebar">
+              <p class="design-tools-title">Design Tools</p>
+              <ul class="list-unstyled design-tools-list">
+                <li (click)="cropClick()">
+                  <i class="icon fa fa-crop left-icon"></i>
+                  <span>Crop</span>
+                </li>
+                <li (click)="rotate('right')">
+                  <i class="icon fa fa-repeat left-icon mod-icon-rotate"></i>
+                  <span>Rotate</span>
+                </li>
+                <li (click)="scale('x')">
+                  <i class="icon fa fa-chevron-circle-up left-icon"></i>
+                  <span>Flip Horizontal</span>
+                </li>
+                <li (click)="scale('y')">
+                  <i class="icon fa fa-chevron-circle-right icon-custom-lg left-icon"></i>
+                  <span>Flip Vertical</span>
+                </li>
+                <li (click)="editText()">
+                  <i class="icon fa fa-text-width icon-custom-sm left-icon"></i>
+                  <span>Add Text</span>
+                </li>
+                <li (click)="filterImage()">
+                  <i class="icon fa fa-magic icon-custom-sm wizard" id="filters"></i>
+                  <span>Image Filter</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-2" *ngIf="!isEditImage">
+            <div class="l-sidebar-wrapper" style="min-height: 465px;">
+              <ul class="list-unstyled guideline-link-list">
+                <li>Guidelines</li>
+                <li>Cut lines
+                  <span class="pull-right">-----</span>
+                </li>
+                <li>
+                  <p>Learn more</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-2 sliders" id="mySidenav" *ngIf="isFilterImage">
+            <form id="imageEditor">
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: grayscale(100%); filter: grayscale(100%);" width="100" height="80">
+                <input type="range" id="gs" name="grayscale" min="0" max="100" value="0">
+              </div>
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: blur(5px); filter: blur(5px);" width="100" height="80">
+                <input type="range" id="blur" name="blur" min="0" max="10" value="0">
+              </div>
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: brightness(50%); filter: brightness(50%);" width="100" height="80">
+                <input type="range" id="br" name="exposure" min="0" max="200" value="100">
+              </div>
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: contrast(50%); filter: contrast(50%);" width="100" height="80">
+                <input type="range" id="ct" name="contrast" min="0" max="200" value="100">
+              </div>
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: hue-rotate(5deg); filter: hue-rotate(5deg);" width="100" height="80">
+                <input type="range" id="huer" name="huer" min="0" max="360" value="0">
+              </div>
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: opacity(50%); filter: opacity(50%);" width="100" height="80">
+                <input type="range" id="opacity" name="opacity" min="0" max="100" value="100">
+              </div>
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: invert(10%); filter: invert(10%);" width="100" height="80">
+                <input type="range" id="invert" name="invert" min="0" max="100" value="0">
+              </div>
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: saturate(50%); filter: saturate(50%);" width="100" height="80">
+                <input type="range" id="saturate" name="saturate" min="0" max="500" value="100">
+              </div>
+              <div>
+                <img src="assets\images\SampleImage.png" class="img-thumbnail" style="-webkit-filter: sepia(50%); filter: sepia(50%);" width="100" height="80">
+                <input type="range" id="sepia" name="sepia" min="0" max="100" value="0">
+              </div>
+              <div>
+                <input type="reset" class="btn btn-success" id="reset" value="Reset">
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <div *ngIf="!isEditImage" class="img-editor">
+              <div class="placer">
+                <div class="placeholders">
+                  <input type="file" style="opacity: 0;" (change)="onFileSelected($event);">
+                  <img *ngIf="previewImg" class="img-placeholder" data-toggle="modal" data-target="#yougraphyModal" src="../../../assets/images/placeholder.png"
+                    alt="">
+                  <img *ngIf="uploadedImg && isSelectImage" [src]="imageSrc" data-toggle="modal" data-target="#yougraphyModal" class="image-uploaded"
+                    id="img">
+                  <div class="dropdown" *ngIf="uploadedImg">
+                    <button class="btn btn-primary btn-z dropdown-toggle" type="button" data-toggle="dropdown">
+                      <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu dm">
+                      <li>
+                        <a (click)="isEditImage = true">Edit</a>
+                      </li>
+                      <li>
+                        <a>Zoom</a>
+                      </li>
+                      <li>
+                        <a (click)="remImg()">Remove</a>
+                      </li>
+                    </ul>
+                    <div class="lk">
+                      <button (click)="resize('positive')">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                      <button (click)="resize('negative')">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="isEditImage" class="img-editor">
+              <div class="row">
+                <div class="col-xs-12 col-sm-9">
+                  <div>
+                    <angular-cropper #angularCropper *ngIf="showCropper && imageUrl" [cropperOptions]="cropperConfig" [imageUrl]="imageUrl" (zoom)="zoomManual()" (ready)="readyImage($event)" (cropend)="cropendImage($event)" (click)="onClearOverlaysSelection()"></angular-cropper>
+                    <app-overlay-texts *ngIf="isEditText" [sizeSettings]="sizeSettings" [textSettings]="textSettings"></app-overlay-texts>
+                  </div>
+                  <app-edit-text [textSettings]="textSettings"></app-edit-text>
+                </div>
+                <div class="col-xs-12 col-sm-3 crop-res" *ngIf="cropperRes || imageUrl">
+                  <img [src]="cropperRes || imageUrl">
+                  <div style="color: white;padding-top: 10px;
+                        padding-bottom: 10px;">
+                    <span style="cursor: pointer;" (click)="applyCrop()">Apply</span>&nbsp;|&nbsp;
+                    <span style="cursor: pointer;" (click)="resetImageCrop()">Reset</span>
+                  </div>
+                  <div class="btn-group">
+                    <button (click)="zoom('positive')" type="button" class="btn btn-primary" data-method="zoom" data-option="0.1" title="Zoom In">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="cropper.zoom(0.1)">
+                        <span class="fa fa-search-plus"></span>
+                      </span>
+                    </button>
+                    <button (click)="zoom('negative')" type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1" title="Zoom Out">
+                      <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="cropper.zoom(-0.1)">
+                        <span class="fa fa-search-minus"></span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="preview">
+              <h3>Photo Mug</h3>
+              <h4> A mug for every reason</h4>
+              <h4>Qty: 1</h4>
+              <h2>
+                <i class="fa fa-inr"></i> 299</h2>
+              <div class="save-design-form" style="margin-bottom: 10px;width: 95%;">
+                <form>
+                  <div class="form-group" style="display: block;">
+                    <label for="nameC">Name Your Design</label>
+                    <input class="form-control" id="nameC" type="text" maxlength="60" placeholder="Name Your Design">
+                  </div>
+                  <div style="cursor: pointer" hidden="true">
+                    <div class="design-name">
+                      <h4>{{objectName}}</h4>
+                    </div>
+                  </div>
+                  <button class="btn btn-preview" (click)="saveCropImages()">Save</button>
+                </form>
+              </div>
+              <div style="margin-top: 10px" *ngIf="isSave">
+                  <span class="saved-design-note">
+                    <i class="icon fa fa-check"></i>
+                    Design Saved
+                  </span>
+                </div>
+              <div class="buttons">
+                <button (click)="clickpreview()" data-toggle="modal" data-target="#canvasModal" class="btn btn-preview">Preview</button>
+                <button style="margin-top: 10px" class="btn btn-cart">Add To Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!isEditImage" class="row tab-wrapper" style="margin-top: 10px">
+          <div class="col-md-2 theme-label-text">
+          </div>
+          <div class="col-md-7">
+            <ul class="nav nav-tabs" style="margin-bottom: 0px" role="tablist">
+              <li role="presentation" class="active">
+                <a aria-controls="selectTheme" data-toggle="tab" href="#selectTheme" role="tab" aria-expanded="true">
+                  Select Theme</a>
+              </li>
+              <li role="presentation" class="">
+                <a aria-controls="addImage" data-toggle="tab" href="#addImage" role="tab" aria-expanded="false">Add Images</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade select-theme-tab-body active in" id="selectTheme" role="tabpanel">
+                <div>
+                  <ul class="list-inline">
+                    <li  (click)="selectCategory(1)" data-toggle="modal" data-target="#themeModal">
+                      <div id="themeCategory12">
+                        <img style="background-size: cover;" src="../../../assets/images/BestDad.jpg" />
+                      </div>
+                      <p>Best Dad</p>
+                    </li>
+                    <li (click)="selectCategory(2)" data-toggle="modal" data-target="#themeModal">
+                      <div id="themeCategory11">
+                        <img style="background-size: cover;" src="../../../assets/images/Classic.jpg" />
+                      </div>
+                      <p>Classic</p>
+                    </li>
+                    <li (click)="selectCategory(3)" data-toggle="modal" data-target="#themeModal">
+                      <div id="themeCategory13"></div>
+                      <img style="background-size: cover;" src="../../../assets/images/BestMom.jpg" />
+                      <p>Best Mom</p>
+                    </li>
+                    <li (click)="selectCategory(4)" data-toggle="modal" data-target="#themeModal">
+                      <div id="themeCategory14"></div>
+                      <img style="background-size: cover;" src="../../../assets/images/BestWorkBuddy.jpg" />
+                      <p>Best Work Buddy</p>
+                    </li>
+                    <li (click)="selectCategory(5)" data-toggle="modal" data-target="#themeModal">
+                      <div id="themeCategory15"></div>
+                      <img style="background-size: cover;" src="../../../assets/images/ForCouples.jpg" />
+                      <p>For Couples</p>
+                    </li>
+                    <li (click)="selectCategory(6)" data-toggle="modal" data-target="#themeModal">
+                      <div id="themeCategory16"></div>
+                      <img style="background-size: cover;" src="../../../assets/images/Birthday.jpg" />
+                      <p>Birthday</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tab-pane fade add-img-tab-body" id="addImage" role="tabpanel">
+                <div class="row">
+                  <div class="col-md-10 col-xs-9">
+                    <ul *ngIf="uploadedImg" class="list-inline upload-img-list" id="sortedImages">
+                      <li id="prevImg">
+                        <i class="icon icon-left-small" hidden=""></i>
+                      </li>
+                      <div class="image-thumb" style="padding-left: 10px;">
+                        <img class="icon" style="height:60px; width:60px" id="image1732782" [src]="imageSrc">
+                      </div>
+                    </ul>
+                  </div>
+                  <div class="col-md-2 col-xs-3">
+                    <ul class="list-inline add-new-img">
+                      <li>
+                        <div  data-toggle="modal" data-target="#yougraphyModal" class="image-thumb">
+                          <i class="fa fa-image"></i>
+                          <p>
+                            <small class="small1">ADD IMAGES</small>
+                          </p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" tabindex="-1" id="yougraphyModal" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Yougraphy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3 import-images-box width-20">
+                <p>Add images from</p>
+                <input type="file" #imageUpload style="opacity: 0;" (change)="onFileSelected($event);">
+                <ul class="nav nav-tabs nav-stacked" role="tablist">
+                  <li role="presentation">
+                    <a aria-controls="my-computer" class="btn btn-danger btn-ghost upload-image-modal-nav" (click)="imageUpload.click()" role="tab">
+                      <i class="you_icon fa fa-desktop"></i> My Computer</a>
+                  </li>
+                  <li role="presentation">
+                    <a class="btn btn-danger btn-ghost upload-image-modal-nav" href="javascript:void(0)" role="tab">
+                      <i class="you_icon fa fa-google"></i>Google Photos</a>
+                  </li>
+                  <li role="presentation">
+                    <a aria-controls="facebook" class="btn btn-danger btn-ghost photoSelect upload-image-modal-nav" href="javascript:void(0)"
+                      role="tab">
+                      <i class="you_icon fa fa-facebook-official"></i> Facebook</a>
+                  </li>
+                  <li role="presentation">
+                    <a aria-controls="instagram" class="btn btn-danger btn-ghost upload-image-modal-nav" href="javascript:void(0)" role="tab">
+                      <i class="you_icon fa fa-instagram"></i> Instagram</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="my-upload" role="tabpanel">
+                    <div>
+                      <div class="img-drag-drop-wrapper">
+                        <ul class="list-inline upload-img-list" style="cursor: pointer;">
+                          <li *ngFor="let imageItem of imageGallary;let i= index;" class="upload"  style="cursor: pointer;">
+                            <div class="img" (click)="selectImage()" data-dismiss="modal">
+                              <img width="100" height="100" src="http://localhost:3000{{imageItem.imageUrl}}" />
+                              <span *ngIf="isSelectImage" class="select-icon">
+                                <i class="fa fa-check"></i>
+                              </span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input accept="image/*" class="inputfile" id="file1" multiple="" name="file" style="display: none" type="file">
+          <input accept="image/*" capture="camera" style="display: none" type="file">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-sm-9 col-sm-offset-3">
+            <p class="warning-block pull-left" style="display: block;">
+              <i class="fa fa-exclamation-triangle"></i> You have not added enough images
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="themeModal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Select Theme</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-3 import-images-box width-20" style="margin-top: 5px;">
+                  <p>Categories</p>
+                  <ul class="nav nav-tabs nav-stacked" role="tablist">
+                    <li role="presentation" class="theme-li" [ngClass]="{'col-yell': isCategory == 1}">
+                      <a aria-controls="my-computer" (click)="isCategory = 1" class="theme-a btn btn-danger btn-ghost upload-image-modal-nav"  role="tab">
+                        Best Dad</a>
+                    </li>
+                    <li role="presentation" class="theme-li" [ngClass]="{'col-yell': isCategory == 2}">
+                        <a aria-controls="my-computer" (click)="isCategory = 2"  class="theme-a btn btn-danger btn-ghost upload-image-modal-nav"  role="tab">
+                          Classic</a>
+                    </li>
+                    <li role="presentation" class="theme-li" [ngClass]="{'col-yell': isCategory == 3}">
+                        <a aria-controls="my-computer" (click)="isCategory = 3" class="theme-a btn btn-danger btn-ghost upload-image-modal-nav"  role="tab">
+                          Best Mom</a>
+                    </li>
+                    <li role="presentation" class="theme-li" [ngClass]="{'col-yell': isCategory == 4}">
+                        <a aria-controls="my-computer" (click)="isCategory = 4" class="theme-a btn btn-danger btn-ghost upload-image-modal-nav"  role="tab">
+                          Best Work Buddy</a>
+                    </li>
+                    <li role="presentation" class="theme-li" [ngClass]="{'col-yell': isCategory == 5}">
+                        <a aria-controls="my-computer" (click)="isCategory = 5" class="theme-a btn btn-danger btn-ghost upload-image-modal-nav"  role="tab">
+                          For Couples</a>
+                    </li>
+                    <li role="presentation" class="theme-li" [ngClass]="{'col-yell': isCategory == 6}">
+                        <a aria-controls="my-computer" (click)="isCategory = 6" class="theme-a btn btn-danger btn-ghost upload-image-modal-nav"  role="tab">
+                          Birthday</a>  
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-9">
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="my-upload" role="tabpanel">
+                      <div>
+                        <div class="img-drag-drop-wrapper" style="border: 1px solid;">
+                          <ul *ngIf="isCategory == 1" class="list-inline upload-img-list" style="cursor: pointer;">
+                            <li class="upload"  style="cursor: pointer;">
+                              <div class="img" (click)="selectThame(1)">
+                                <img width="100" height="100" [src]="theme.dad.src1" />
+                                <span *ngIf="isSelectTheme == 1" class="select-icon">
+                                  <i class="fa fa-check"></i>
+                                </span>
+                              </div>
+                            </li>
+                            <li class="upload"  style="cursor: pointer;">
+                                <div class="img" (click)="selectThame(2)">
+                                  <img width="100" height="100"  [src]="theme.dad.src2" />
+                                  <span *ngIf="isSelectTheme  == 2" class="select-icon">
+                                    <i class="fa fa-check"></i>
+                                  </span>
+                                </div>
+                            </li>
+                            <li class="upload"  style="cursor: pointer;">
+                                <div class="img" (click)="selectThame(3)">
+                                  <img width="100" height="100"  [src]="theme.dad.src3" />
+                                  <span *ngIf="isSelectTheme  == 3" class="select-icon">
+                                    <i class="fa fa-check"></i>
+                                  </span>
+                                </div>
+                            </li>
+                            <li class="upload"  style="cursor: pointer;">
+                                <div class="img" (click)="selectThame(4)">
+                                  <img width="100" height="100"  [src]="theme.dad.src4" />
+                                  <span *ngIf="isSelectTheme  == 4" class="select-icon">
+                                    <i class="fa fa-check"></i>
+                                  </span>
+                                </div>
+                            </li>
+                          </ul>
+                          <ul *ngIf="isCategory == 2" class="list-inline upload-img-list" style="cursor: pointer;">
+                              <li class="upload"  style="cursor: pointer;">
+                                <div class="img" (click)="selectThame(5)">
+                                  <img width="100" height="100" [src]="theme.cla.src1" />
+                                  <span *ngIf="isSelectTheme  == 5" class="select-icon">
+                                    <i class="fa fa-check"></i>
+                                  </span>
+                                </div>
+                              </li>
+                              <li class="upload"  style="cursor: pointer;">
+                                  <div class="img" (click)="selectThame(6)">
+                                    <img width="100" height="100"  [src]="theme.cla.src2" />
+                                    <span *ngIf="isSelectTheme  == 6" class="select-icon">
+                                      <i class="fa fa-check"></i>
+                                    </span>
+                                  </div>
+                              </li>
+                              <li class="upload"  style="cursor: pointer;">
+                                  <div class="img" (click)="selectThame(7)">
+                                    <img width="100" height="100"  [src]="theme.cla.src3" />
+                                    <span *ngIf="isSelectTheme  == 7" class="select-icon">
+                                      <i class="fa fa-check"></i>
+                                    </span>
+                                  </div>
+                              </li>
+                              <li class="upload"  style="cursor: pointer;">
+                                  <div class="img" (click)="selectThame(8)">
+                                    <img width="100" height="100"  [src]="theme.cla.src4" />
+                                    <span *ngIf="isSelectTheme  == 8" class="select-icon">
+                                      <i class="fa fa-check"></i>
+                                    </span>
+                                  </div>
+                              </li>
+                          </ul>
+                          <ul *ngIf="isCategory == 3" class="list-inline upload-img-list" style="cursor: pointer;">
+                              <li class="upload"  style="cursor: pointer;">
+                                <div class="img" (click)="selectThame(9)">
+                                  <img width="100" height="100" [src]="theme.mom.src1" />
+                                  <span *ngIf="isSelectTheme  == 9" class="select-icon">
+                                    <i class="fa fa-check"></i>
+                                  </span>
+                                </div>
+                              </li>
+                          </ul>
+                          <ul *ngIf="isCategory == 4" class="list-inline upload-img-list" style="cursor: pointer;">
+                              <li class="upload"  style="cursor: pointer;">
+                                <div class="img" (click)="selectThame(10)">
+                                  <img width="100" height="100" [src]="theme.buddy.src1" />
+                                  <span *ngIf="isSelectTheme  == 10" class="select-icon">
+                                    <i class="fa fa-check"></i>
+                                  </span>
+                                </div>
+                              </li>
+                          </ul>
+                          <ul *ngIf="isCategory == 5" class="list-inline upload-img-list" style="cursor: pointer;">
+                              <li class="upload"  style="cursor: pointer;">
+                                <div class="img" (click)="selectThame(11)">
+                                  <img width="100" height="100" [src]="theme.cops.src1" />
+                                  <span *ngIf="isSelectTheme  == 11" class="select-icon">
+                                    <i class="fa fa-check"></i>
+                                  </span>
+                                </div>
+                              </li>
+                          </ul>
+                          <ul *ngIf="isCategory == 6" class="list-inline upload-img-list" style="cursor: pointer;">
+                              <li class="upload"  style="cursor: pointer;">
+                                <div class="img" (click)="selectThame(12)">
+                                  <img width="100" height="100" [src]="theme.bir.src1" />
+                                  <span *ngIf="isSelectTheme  == 12" class="select-icon">
+                                    <i class="fa fa-check"></i>
+                                  </span>
+                                </div>
+                              </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger text-uppercase col-yell" data-dismiss="modal" type="button">Done</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="canvasModal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Preview of Photo Mug &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-inr"></i> 299
+          </h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">
+            <div class="container">
+              <div class="row" style="width: 73%;">
+               <div class="col-md-3">
+                  <div style="margin-top: 70%;" class="navigation left-navigation" (click)="preClick()">
+                      <i class="fa fa-arrow-left" style="padding-left: 5px;"></i>
+                      <span class="pre-page text-center">Previous Page</span>
+                  </div>
+               </div>
+                <div class="col-md-6" style="text-align: center;">
+                    <div id="group" #group>
+                        <div #groupDiv1>
+                          <canvas id="canvas1" #canvas1></canvas>
+                        </div>
+                      
+                        <div #groupDiv2>
+                          <canvas id="canvas2" #canvas2></canvas>
+                        </div>
+                      
+                        <div #groupDiv3>
+                          <canvas id="canvas3" #canvas3></canvas>
+                        </div>
+                      </div>
+                </div>
+                <div style="margin-top: 18%;" class="col-md-3">
+                    <div class="navigation right-navigation" (click)="nextClick()">
+                        <i class="fa fa-arrow-right" style="padding-left: 7px;"></i>
+                        <span class="pre-page text-center">Next Page</span>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger text-uppercase col-yell" data-dismiss="modal" type="button">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+</div>

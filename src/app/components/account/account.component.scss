@@ -1,0 +1,38 @@
+.dashboard-tabs {
+    text-transform: uppercase;
+    font-size: 1em;
+    border: 6px solid #f2f2f2;
+    margin-top: 35px;
+    color: #666;
+}
+
+.dashboard-tabs li {
+    padding: 10px 0;
+    border-bottom: 2px solid #f2f2f2;
+}
+.dashboard-tabs a i {
+    padding: 0 5px;
+    font-size: 16px;
+}
+.dashboard-tabs a {
+    color: #666;
+    text-decoration: none;
+}
+.address-book-title {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    text-transform: uppercase;
+    display: inline;
+}
+.head {
+    background-color: #f9f9f8;
+    padding: 12px 15px;
+    border-bottom: 2px solid #f2f2f2;
+    margin-left: 0;
+}
+label {
+    font-weight: 400;
+    color: #666;
+    text-transform: capitalize;
+}

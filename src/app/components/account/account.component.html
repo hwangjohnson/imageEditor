@@ -1,0 +1,270 @@
+<app-header></app-header>
+<div class="container">
+  <div class="row" style="margin-bottom: 50px">
+    <div class="col-md-3 col-sm-3 dashboard-tabs">
+      <ul class="list-unstyled" role="tablist">
+        <li class="text-center">My Account</li>
+        <li role="presentation" routerlinkactive="active" tabindex="0" class="">
+          <a class="hand-pointer" href="javascript:void(0)">
+            <i class="fa fa-file-image-o"></i>&nbsp;My Gallery</a>
+        </li>
+        <li role="presentation" routerlinkactive="active" tabindex="0" class="">
+          <a class="hand-pointer" href="javascript:void(0)">
+            <i class="fa fa-paint-brush"></i>&nbsp;My Designs</a>
+        </li>
+        <li role="presentation" routerlinkactive="active" tabindex="0" class="active">
+          <a class="hand-pointer" href="javascript:void(0)">
+            <i class="fa fa-credit-card"></i>&nbsp;Account Dashboard</a>
+        </li>
+        <li role="presentation" (click)="tabClick(1)" routerlinkactive="active" tabindex="0">
+          <a class="hand-pointer" href="javascript:void(0)">
+            <i class="fa fa-user"></i>&nbsp;Account Information</a>
+        </li>
+        <li role="presentation" (click)="tabClick(2)" routerlinkactive="active" tabindex="0" class="">
+          <a class="hand-pointer" href="javascript:void(0)">
+            <i class="fa fa-address-book"></i>&nbsp;Address</a>
+        </li>
+        <li role="presentation" routerlinkactive="active" tabindex="0">
+          <a class="hand-pointer" href="javascript:void(0)">
+            <i class="fa fa-shopping-cart"></i>&nbsp;My orders</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-1" style="width: 0%;">
+    </div>
+    <div *ngIf="isTab == 1" class="col-md-8 col-sm-8 dashboard-tabs">
+      <div class="row">
+        <div class="head">
+          <h3 class="address-book-title">Account Information</h3>
+        </div>
+        <div class="col-md-12" style="margin-top:10px;margin-bottom:25px">
+          <h3 class="address-book-title">CONTACT INFORMATION</h3>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="accountInfo.fullName" name="name" class="form-control custom-input" placeholder="Enter your name">
+            <div class="error-list" *ngIf="isError && isInValid(accountInfo.fullName)">
+              You must include your full name.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Email ID</label>
+            <input type="text" [(ngModel)]="accountInfo.email" name="email" class="form-control custom-input" placeholder="Enter your email ID">
+            <div class="error-list" *ngIf="isError && isInValid(accountInfo.email)">
+              Please provide an email.
+            </div>
+            <div class="error-list" *ngIf="!isInValid(accountInfo.email) && !validateEmail(accountInfo.email)">
+              Email Format is invalid.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="text" (keypress)="onlyNumberKey($event)" [(ngModel)]="accountInfo.mobile" name="mobile" class="form-control custom-input"
+              placeholder="Enter your mobile number">
+            <div class="error-list" *ngIf="isError && isInValid(accountInfo.mobile)">
+              Please provide a valid mobile number.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" style="text-align: right;">
+          <div class="form-group">
+            <button (click)="saveAccountInfo()" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <hr style="padding: 0;
+            margin: 0;" />
+        </div>
+        <div class="col-md-12" style="margin-top:10px;margin-bottom:25px">
+          <h3 class="address-book-title">CHANGE PASSWORD</h3>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Current Password</label>
+            <input type="password" [(ngModel)]="changePassword.password" name="oldpassword" class="form-control custom-input" placeholder="Enter your current password">
+            <div class="error-list" *ngIf="isError1 && isInValid(changePassword.password)">
+              You must include a password.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" [(ngModel)]="changePassword.newPassword" name="newpassword" class="form-control custom-input" placeholder="Enter new password">
+            <div class="error-list" *ngIf="isError1 && isInValid(changePassword.newPassword)">
+              You must include a new password.
+            </div>
+            <div class="error-list" *ngIf="isError1 && !isInValid(changePassword.newPassword) && changePassword.newPassword.length < 6 ">
+              Your password must be at least 6 characters long.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Retype New Password</label>
+            <input type="password" [(ngModel)]="changePassword.confirmPassword" name="copassword" class="form-control custom-input" placeholder="Retype new password">
+            <div class="error-list" *ngIf="isError1 && isInValid(changePassword.confirmPassword)">
+              You must include a password.
+            </div>
+            <div class="error-list" *ngIf="isError1 && !isInValid(changePassword.confirmPassword) && changePassword.confirmPassword.length < 6 ">
+              Your confirm password must be at least 6 characters long.
+            </div>
+            <div class="error-list" *ngIf="isError1 && !isInValid(changePassword.confirmPassword) && changePassword.newPassword != changePassword.confirmPassword">
+              Your passwords don't match.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="error-list" *ngIf="isError1 && isInvalid1">
+            {{serverMessage}}
+          </div>
+        </div>
+        <div class="col-md-12" style="text-align: right;">
+          <div class="form-group">
+            <button (click)="chnagePassword()" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isTab == 2" class="col-md-8 col-sm-8 dashboard-tabs">
+      <div class="row">
+        <div class="head">
+          <h3 class="address-book-title">Address</h3>
+        </div>
+        <div class="col-md-12" style="margin-top:10px;margin-bottom:25px">
+          <h3 class="address-book-title">DELIVERY ADDRESS</h3>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" [(ngModel)]="deliveryAddress.name" name="fullname" class="form-control custom-input" placeholder="Enter your full name">
+            <div class="error-list" *ngIf="isError2 && isInValid(deliveryAddress.name)">
+              You must include your full name.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Address 1</label>
+            <input type="text" [(ngModel)]="deliveryAddress.address1" name="address1" class="form-control custom-input" placeholder="Enter address line 1">
+            <div class="error-list" *ngIf="isError2 && isInValid(deliveryAddress.address1)">
+              Please provide a valid address.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Address 2</label>
+            <input type="text" [(ngModel)]="deliveryAddress.address2" name="address2" class="form-control custom-input" placeholder="Enter address line 2">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" [(ngModel)]="deliveryAddress.state" name="state" class="form-control custom-input" placeholder="Enter your state">
+            <div class="error-list" *ngIf="isError2 && isInValid(deliveryAddress.state)">
+              Please select state.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" [(ngModel)]="deliveryAddress.city" name="city" class="form-control custom-input" placeholder="Enter your city">
+            <div class="error-list" *ngIf="isError2 && isInValid(deliveryAddress.city)">
+              Please provide a valid city.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Pin code</label>
+            <input type="text" [(ngModel)]="deliveryAddress.pincode" name="pincode" class="form-control custom-input" placeholder="Enter your pincode">
+            <div class="error-list" *ngIf="isError2 && isInValid(deliveryAddress.pincode)">
+              Please provide a valid pincode.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="checkbox" name="samsas"> USE THE SAME ADDRESS AS BILLING ADDRESS
+          </div>
+        </div>
+        <div class="col-md-12" style="text-align: right;">
+          <div class="form-group">
+            <button (click)="saveDeliveryAddress()" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <hr style="padding: 0;
+          margin: 0;" />
+        </div>
+        <div class="col-md-12" style="margin-top:10px;margin-bottom:25px">
+          <h3 class="address-book-title">BILLING ADDRESS</h3>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" [(ngModel)]="billingAddress.name" name="fullname1" class="form-control custom-input" placeholder="Enter your full name">
+            <div class="error-list" *ngIf="isError3 && isInValid(billingAddress.name)">
+              You must include your full name.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Address 1</label>
+            <input type="text" [(ngModel)]="billingAddress.address1" name="address11" class="form-control custom-input" placeholder="Enter address line 1">
+            <div class="error-list" *ngIf="isError3 && isInValid(billingAddress.address1)">
+              Please provide a valid address.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Address 2</label>
+            <input type="text" [(ngModel)]="billingAddress.address2" name="address21" class="form-control custom-input" placeholder="Enter address line 2">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" [(ngModel)]="billingAddress.state" name="state1" class="form-control custom-input" placeholder="Enter your state">
+            <div class="error-list" *ngIf="isError3 && isInValid(billingAddress.state)">
+              Please select state.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" [(ngModel)]="billingAddress.city" name="city1" class="form-control custom-input" placeholder="Enter your city">
+            <div class="error-list" *ngIf="isError3 && isInValid(billingAddress.city)">
+              Please provide a valid city.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Pin code</label>
+            <input type="text" [(ngModel)]="billingAddress.pincode" name="pincode1" class="form-control custom-input" placeholder="Enter your pincode">
+            <div class="error-list" *ngIf="isError3 && isInValid(billingAddress.pincode)">
+              Please provide a valid pincode.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" style="text-align: right;">
+          <div class="form-group">
+            <button (click)="saveBillingAddress()" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

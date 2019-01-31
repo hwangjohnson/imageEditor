@@ -1,0 +1,98 @@
+.fa-sliderss{
+  font-size: 54px;
+  color: #000;
+  position: absolute;
+  top:47%;
+}
+
+.no-padding{
+  padding: 0px;
+}
+
+.img-b{
+  height: 400px!important;
+  object-fit: cover;
+}
+
+.carousel-control.left{
+  background-image: none!important;
+}
+
+.carousel-control.right{
+  background-image: none!important;
+}
+
+.blog .carousel-indicators {
+  left: 0;
+  top: auto;
+  bottom: -40px;
+
+}
+
+/* The colour of the indicators */
+.blog .carousel-indicators li {
+  background: #a3a3a3;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+}
+
+.blog .carousel-indicators .active {
+  background: #707070;
+}
+
+
+.yougraphers{
+
+  overflow: hidden;
+  height: 360px;
+  width: 100%;
+  border: 1px solid #ececec;
+  padding: 15px;
+
+}
+
+.ss{
+  width: 100%;
+}
+
+.name{
+  padding: 10px 0px 0px 0px;
+  font-size: 20px;
+
+}
+
+.blog-body{
+  background-image: url(https://yougraphy-blog.canvera.com/wp-content/uploads/2018/12/wedding-photography-business.jpg);
+  height: 200px;
+  background-position: center;
+  background-size: cover;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.blog-body .blog-content{
+  position: absolute;
+  bottom: 0;
+  padding: 15px;
+  z-index: 1;
+  color: #fff;
+  max-width: 100%;
+}
+
+.card-title a{
+  font-size: 24px;
+  line-height: 1.2;
+  color: #fff;
+}
+
+
+.youspiration{
+  padding: 50px 0px;
+}
+
+
+.blog-body1{
+  height: 400px;
+
+}

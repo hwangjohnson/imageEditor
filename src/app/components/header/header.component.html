@@ -1,0 +1,95 @@
+<section class="header">
+  <nav class="navbar navbar-inverse nav-cus">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand custom-brand" href="#"><img class="img-responsive img-height-logo" src="../../../assets/images/logo.png" alt=""></a>
+      </div>
+      <div class="collapse navbar-collapse pull-right" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other Products<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Wedding Photobooks</a></li>
+              <li><a href="#">PickmyPhotographer.com</a></li>
+              <li><a href="#">Commercial Printing</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">consumercare@canvera.com</a></li>
+              <li><a href="#">1-800-419-0570</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li *ngIf="!isLogin"><a routerLink="/signin"><span class="glyphicon glyphicon-user"></span> Sign In</a></li>
+          <li *ngIf="!isLogin"><a routerLink="/signup"><span class="glyphicon glyphicon-log-in"></span> Register</a></li>
+          <li *ngIf="isLogin"><a href="#"> <i class="fa fa-shopping-cart cart-icon"></i></a></li>
+          <li *ngIf="isLogin" class="dropdown" style="margin-top: 9px;margin-left: 18px;">
+            <img height="30" width="30" class="dropdown-toggle profile" data-toggle="dropdown" src="../../../assets/images/user.png" /> <span class="caret"></span>
+            <ul class="dropdown-menu">
+              <li><a routerLink="/account">My Account</a></li>
+              <li><a (click)="logoutClick()" routerLink="/signin">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <nav class="navbar navbar-inverse nav-cus2">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse " id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a class="dropdown-toggle zx" data-toggle="dropdown" href="#">Mobile Covers</a>
+            <!-- <ul class="dropdown-menu">
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">dummyemail@email.com</a></li>
+            </ul> -->
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle zx" routerLink="/mug">Mugs</a>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle zx" data-toggle="dropdown" href="#">Desktop Calendar</a>
+            <!-- <ul class="dropdown-menu">
+               <li><a href="#">FAQ</a></li>
+              <li><a href="#">dummyemail@email.com</a></li>
+            </ul> -->
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle zx" data-toggle="dropdown" href="#">Wall Calendar</a>
+            <!-- <ul class="dropdown-menu">
+               <li><a href="#">FAQ</a></li>
+              <li><a href="#">dummyemail@email.com</a></li> 
+            </ul>-->
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle zx" data-toggle="dropdown" href="#">Photo Books<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Couple Books</a></li>
+              <li><a href="#">Insta Photo Books</a></li>
+              <li><a href="#">Youbooks</a></li>
+              <li><a href="#">Sharebooks</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
